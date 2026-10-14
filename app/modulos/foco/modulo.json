@@ -1,0 +1,40 @@
+{
+  "id": "foco",
+  "nome": "Foco (pomodoro)",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "widgets": [
+    "foco"
+  ],
+  "acoes": {
+    "foco": {
+      "rotulo": "Começar ou cancelar o foco"
+    }
+  },
+  "config": {
+    "min": {
+      "tipo": "numero",
+      "padrao": 25,
+      "rotulo": "Minutos de foco"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "foco",
+      "nome": "Pomodoro",
+      "descricao": "Toque começa 25 min de foco; o arco mostra quanto falta.",
+      "categoria": "Informação",
+      "botao": {
+        "aparencia": {
+          "widget": "foco"
+        },
+        "toque": [
+          {
+            "type": "foco"
+          }
+        ]
+      },
+      "icone": "relogio"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "_comment": "OBS Studio 28+ pelo WebSocket (Ferramentas > Configuracoes do servidor WebSocket: ligar, porta 4455; a senha vai em obs.senha no config.json). As cenas sao lidas do OBS e viram botoes sozinhas.",
+  "id": "obs",
+  "nome": "OBS Studio",
+  "categoria": "live",
+  "detectar": {
+    "app": [
+      "OBS Studio"
+    ],
+    "caminhos": [
+      "%ProgramFiles%/obs-studio/bin/64bit/obs64.exe"
+    ],
+    "processo": [
+      "obs64"
+    ]
+  },
+  "entrada": {
+    "widget": "icone",
+    "icon": "broadcast",
+    "color": "#7C66DC",
+    "label": "OBS"
+  },
+  "inicio": "obs",
+  "paginas": {
+    "obs": {
+      "titulo": "OBS",
+      "quando_foco": [
+        "obs64.exe"
+      ],
+      "grade": {
+        "cols": 4,
+        "rows": 2
+      },
+      "botoes": [
+        {
+          "id": "live",
+          "aparencia": {
+            "icon": "broadcast",
+            "label": "Live",
+            "label_on": "Ao vivo",
+            "sub": "iniciar / parar",
+            "color": "#E5484D",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "obs",
+              "op": "live"
+            }
+          ],
+          "aceso": "obs_live"
+        },
+        {
+          "id": "gravar",
+          "aparencia": {
+            "icon": "gravar",
+            "label": "Gravar",
+            "label_on": "Gravando",
+            "color": "#E5484D",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "obs",
+              "op": "gravar"
+            }
+          ],
+          "aceso": "obs_rec"
+        },
+        {
+          "id": "pausar",
+          "aparencia": {
+            "icon": "pausa_circ",
+            "label": "Pausar",
+            "label_on": "Pausado",
+            "sub": "gravacao",
+            "color": "#F5A524",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "obs",
+              "op": "pausar"
+            }
+          ],
+          "aceso": "obs_pausa"
+        },
+        {
+          "id": "replay",
+          "aparencia": {
+            "icon": "replay",
+            "label": "Replay",
+            "sub": "salvar clipe",
+            "color": "#3E63DD",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "obs",
+              "op": "replay"
+            }
+          ]
+        },
+        {
+          "id": "cenas",
+          "aparencia": {
+            "icon": "film",
+            "label": "Cenas",
+            "color": "#7C66DC",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "page",
+              "page": "cenas"
+            }
+          ]
+        },
+        {
+          "id": "mic",
+          "aparencia": {
+            "icon": "mic",
+            "label": "Mic",
+            "label_on": "Mudo",
+            "color": "#5B6572",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "mic_toggle"
+            }
+          ],
+          "aceso": "mic_muted"
+        },
+        {
+          "id": "sons",
+          "aparencia": {
+            "icon": "megafone",
+            "label": "Sons",
+            "color": "#E5484D",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "page",
+              "page": "soundboard"
+            }
+          ]
+        },
+        {
+          "id": "home",
+          "aparencia": {
+            "icon": "back",
+            "label": "Home",
+            "color": "#3A3F4B",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "page",
+              "page": "home"
+            }
+          ]
+        }
+      ]
+    },
+    "cenas": {
+      "titulo": "Cenas",
+      "gerar": "obs.cenas",
+      "botoes": [
+        {
+          "id": "voltar",
+          "aparencia": {
+            "icon": "back",
+            "label": "Voltar",
+            "color": "#3A3F4B",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "page",
+              "page": "obs"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

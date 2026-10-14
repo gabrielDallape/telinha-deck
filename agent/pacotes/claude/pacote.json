@@ -1,0 +1,326 @@
+{
+  "_comment": "Claude Code no Windows Terminal. A pagina 'claude' abre sozinha quando a aba do Claude vem para a frente.",
+  "id": "claude",
+  "nome": "Claude Code",
+  "categoria": "dev",
+  "detectar": {
+    "comando": [
+      "claude"
+    ],
+    "caminhos": [
+      "~/.local/bin/claude.exe"
+    ]
+  },
+  "entrada": {
+    "icon": "claude",
+    "color": "#D97757",
+    "label": "Claude"
+  },
+  "inicio": "claude",
+  "paginas": {
+    "claude": {
+      "_comment": "abre sozinha quando o Windows Terminal com o Claude Code vem para a frente (quando_foco) e volta para a home quando ele sai. Cada macro so digita se essa janela continuar na frente.",
+      "title": "Claude Code",
+      "back": "home",
+      "quando_foco": [
+        {
+          "exe": "windowsterminal.exe",
+          "titulo_comeca": [
+            "✳",
+            "◐",
+            "◑",
+            "◒",
+            "◓",
+            "●",
+            "○",
+            "•",
+            "*"
+          ],
+          "titulo_tem": [
+            "claude"
+          ],
+          "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+        }
+      ],
+      "grid": {
+        "cols": 4,
+        "rows": 2
+      },
+      "buttons": [
+        {
+          "id": "falar",
+          "label": "Falar",
+          "icon": "falar",
+          "color": "#D97757",
+          "sub": "toque: grava / para",
+          "type": "digitar",
+          "tecla": "alt+k",
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente",
+          "_comment": "ditado nativo do Claude Code em modo toque (/voice tap). alt+k esta ligado a voice:pushToTalk em ~/.claude/keybindings.json"
+        },
+        {
+          "id": "aprovar",
+          "label": "Aprovar",
+          "icon": "aprovar",
+          "color": "#30A46C",
+          "sub": "Enter",
+          "type": "digitar",
+          "enter": true,
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente"
+        },
+        {
+          "id": "recusar",
+          "label": "Recusar",
+          "icon": "recusar",
+          "color": "#E5484D",
+          "sub": "Esc",
+          "type": "digitar",
+          "tecla": "esc",
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente"
+        },
+        {
+          "id": "rc",
+          "label": "Remote",
+          "icon": "celular",
+          "color": "#3E63DD",
+          "sub": "/remote-control",
+          "type": "digitar",
+          "texto": "/remote-control",
+          "enter": true,
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente",
+          "_comment": "liga o Remote Control nesta sessao: continua no celular (app do Claude ou claude.ai/code). /rc e o atalho, mas o nome inteiro nao depende do autocompletar"
+        },
+        {
+          "id": "usage",
+          "label": "Usage",
+          "icon": "usage",
+          "color": "#12A594",
+          "sub": "/usage",
+          "type": "digitar",
+          "texto": "/usage",
+          "enter": true,
+          "_comment": "no lugar do Parar (Ctrl+C): o Recusar (Esc) ja interrompe o Claude sem fechar nada",
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente"
+        },
+        {
+          "id": "modelo",
+          "label": "Modelo",
+          "icon": "modelo",
+          "color": "#F5A524",
+          "sub": "Opus / Fable",
+          "type": "page",
+          "page": "modelo",
+          "peso": "controle"
+        },
+        {
+          "id": "clear",
+          "label": "Limpar",
+          "icon": "limpar",
+          "color": "#8E4EC6",
+          "sub": "/clear",
+          "type": "digitar",
+          "texto": "/clear",
+          "enter": true,
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente"
+        },
+        {
+          "id": "projetos",
+          "label": "Projetos",
+          "icon": "claude",
+          "color": "#D97757",
+          "type": "page",
+          "page": "dev",
+          "peso": "controle"
+        }
+      ]
+    },
+    "modelo": {
+      "_comment": "troca o modelo da sessao em foco com /model <id> e volta para a pagina claude",
+      "title": "Modelo",
+      "grid": {
+        "cols": 3,
+        "rows": 1
+      },
+      "buttons": [
+        {
+          "id": "opus",
+          "label": "Opus 5.5",
+          "icon": "modelo",
+          "color": "#D97757",
+          "sub": "claude-opus-5-5",
+          "type": "digitar",
+          "texto": "/model claude-opus-5-5",
+          "enter": true,
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente",
+          "then": "claude",
+          "confirmar": 0.8
+        },
+        {
+          "id": "fable",
+          "label": "Fable 5.1",
+          "icon": "modelo",
+          "color": "#8E4EC6",
+          "sub": "claude-fable-5-1",
+          "type": "digitar",
+          "texto": "/model claude-fable-5-1",
+          "enter": true,
+          "exigir": {
+            "exe": "windowsterminal.exe",
+            "titulo_comeca": [
+              "✳",
+              "◐",
+              "◑",
+              "◒",
+              "◓",
+              "●",
+              "○",
+              "•",
+              "*"
+            ],
+            "titulo_tem": [
+              "claude"
+            ],
+            "_comment": "o Claude Code poe um simbolo de estado na frente do titulo da aba: * parado, quartos de lua trabalhando, bolinhas esperando"
+          },
+          "erro": "Claude nao esta na frente",
+          "then": "claude",
+          "confirmar": 0.8
+        },
+        {
+          "id": "voltar",
+          "label": "Voltar",
+          "icon": "back",
+          "color": "#3A3F4B",
+          "type": "page",
+          "page": "claude"
+        }
+      ]
+    }
+  }
+}

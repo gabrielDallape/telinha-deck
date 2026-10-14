@@ -1,0 +1,55 @@
+{
+  "id": "agenda",
+  "nome": "Agenda",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "sempre": true,
+  "widgets": [
+    "agenda"
+  ],
+  "_comment": "sempre: a proxima reuniao de hoje vai na barra do topo mesmo sem card de agenda",
+  "config": {
+    "ics_url": {
+      "tipo": "texto",
+      "padrao": "",
+      "rotulo": "Endereço secreto iCal"
+    },
+    "atualiza_min": {
+      "tipo": "numero",
+      "padrao": 5,
+      "rotulo": "Atualizar a cada (min)"
+    },
+    "dias": {
+      "tipo": "numero",
+      "padrao": 7,
+      "rotulo": "Dias à frente"
+    },
+    "google_client_secret": {
+      "tipo": "texto",
+      "padrao": "google_client_secret.json",
+      "rotulo": "client_secret do Google (em segredos/)"
+    },
+    "google_agendas": {
+      "tipo": "lista",
+      "padrao": [
+        "primary"
+      ],
+      "rotulo": "Agendas do Google"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "agenda",
+      "nome": "Próximas reuniões",
+      "descricao": "A próxima e as duas seguintes, da sua agenda.",
+      "categoria": "Informação",
+      "botao": {
+        "aparencia": {
+          "widget": "agenda"
+        },
+        "toque": []
+      },
+      "icone": "calendario"
+    }
+  ]
+}

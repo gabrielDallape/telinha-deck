@@ -1,0 +1,105 @@
+{
+  "id": "discord",
+  "nome": "Discord",
+  "categoria": "comunicacao",
+  "detectar": {
+    "app": [
+      "Discord"
+    ],
+    "caminhos": [
+      "%LOCALAPPDATA%/Discord/Update.exe"
+    ]
+  },
+  "entrada": {
+    "icon_app": "Discord",
+    "color": "#5865F2",
+    "label": "Discord"
+  },
+  "inicio": "discord",
+  "paginas": {
+    "discord": {
+      "_comment": "abre sozinha quando o Discord vem para a frente. Surdo usa o atalho padrao do Discord (Ctrl+Shift+D); se voce mudou, ajuste target.",
+      "title": "Discord",
+      "back": "home",
+      "quando_foco": [
+        "discord.exe"
+      ],
+      "grid": {
+        "cols": 3,
+        "rows": 2
+      },
+      "buttons": [
+        {
+          "id": "mic",
+          "label": "Mic",
+          "label_on": "Mudo",
+          "sub": "Discord + Windows",
+          "icon": "mic",
+          "color": "#5B6572",
+          "state_key": "mic_muted",
+          "_comment": "Muta nos DOIS lugares. O mute do Windows cala o audio de verdade e e o que a tela le como estado; o atalho faz o Discord mostrar voce mutado para o time - sem ele, o pessoal continua te vendo com o microfone aberto. O atalho tem de estar cadastrado em Discord > Configuracoes > Atalhos de Teclado como 'Ativar/desativar mudo'.",
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "mic_toggle"
+            },
+            {
+              "type": "key_app",
+              "app": "discord",
+              "target": "ctrl+alt+shift+m",
+              "exigir": false
+            }
+          ]
+        },
+        {
+          "id": "surdo",
+          "label": "Surdo",
+          "icon": "fone_off",
+          "color": "#5B6572",
+          "sub": "Ctrl+Shift+D",
+          "type": "key_app",
+          "app": "discord",
+          "target": "ctrl+shift+d",
+          "exigir": true
+        },
+        {
+          "id": "sysmute",
+          "label": "Som",
+          "label_on": "Mudo",
+          "icon": "volume",
+          "color": "#5B6572",
+          "type": "sys_mute_toggle",
+          "state_key": "sys_muted",
+          "nivel_de": "sys_vol",
+          "_comment_nivel": "nivel_de: chave do state cujo valor (0-100) vira a barra de gomos no card. O agente poe o valor em painel.niveis[chave] e remanda a pagina quando muda."
+        },
+        {
+          "id": "vol_down",
+          "label": "Vol -",
+          "icon": "volume_down",
+          "color": "#3E63DD",
+          "type": "media",
+          "key": "volume_down"
+        },
+        {
+          "id": "vol_up",
+          "label": "Vol +",
+          "icon": "volume_up",
+          "color": "#3E63DD",
+          "type": "media",
+          "key": "volume_up"
+        },
+        {
+          "id": "monitor2",
+          "label": "Monitor 2",
+          "icon": "monitor",
+          "color": "#5865F2",
+          "sub": "manda o Discord pra la",
+          "type": "focus_or_launch",
+          "target": "Discord",
+          "monitor": "secundario"
+        }
+      ]
+    }
+  }
+}

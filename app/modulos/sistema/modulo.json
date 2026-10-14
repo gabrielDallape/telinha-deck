@@ -1,0 +1,24 @@
+{
+  "id": "sistema",
+  "nome": "Sistema",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "widgets": [
+    "sistema"
+  ],
+  "biblioteca": [
+    {
+      "id": "cpu",
+      "nome": "CPU e RAM",
+      "descricao": "Medidor de uso do PC, a cada 5 s.",
+      "categoria": "Sistema",
+      "botao": {
+        "aparencia": {
+          "widget": "sistema"
+        },
+        "toque": []
+      },
+      "icone": "chip"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "id": "projetos",
+  "nome": "Projetos (Claude Code)",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "widgets": [
+    "projeto"
+  ],
+  "acoes": {
+    "abrir_projeto": {
+      "rotulo": "Abrir projeto com o Claude",
+      "campos": {
+        "projeto": {
+          "tipo": "texto",
+          "rotulo": "Projeto"
+        }
+      }
+    }
+  },
+  "provedores": [
+    "projetos.lista"
+  ],
+  "config": {
+    "raiz": {
+      "tipo": "pasta",
+      "padrao": "",
+      "rotulo": "Pasta dos projetos (vazio = Área de Trabalho)"
+    },
+    "lista": {
+      "tipo": "lista",
+      "padrao": [],
+      "rotulo": "Projetos escolhidos (vazio = acha sozinho)"
+    },
+    "comando": {
+      "tipo": "texto",
+      "padrao": "claude",
+      "rotulo": "Comando ao abrir"
+    },
+    "max": {
+      "tipo": "numero",
+      "padrao": 15,
+      "rotulo": "Máximo de projetos"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "projetos",
+      "nome": "Projetos",
+      "descricao": "Abre a página dos seus projetos: um toque abre o terminal com o Claude.",
+      "categoria": "Claude Code",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "claude",
+          "label": "Projetos",
+          "color": "#D97757",
+          "sub": "{projetos}"
+        },
+        "toque": [
+          {
+            "type": "page",
+            "page": "dev"
+          }
+        ]
+      },
+      "icone": "terminal"
+    }
+  ]
+}

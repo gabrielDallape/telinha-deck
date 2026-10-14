@@ -1,0 +1,55 @@
+{
+  "diag": [
+    {
+      "nome": "Audio do Windows (pycaw)",
+      "ok": true,
+      "detalhe": "volume 58%, mudo=False",
+      "ms": 91
+    },
+    {
+      "nome": "O que esta tocando (winsdk/SMTC)",
+      "ok": true,
+      "detalhe": "SMTC ok, nada tocando",
+      "ms": 166
+    },
+    {
+      "nome": "Icone de app (pywin32)",
+      "ok": true,
+      "detalhe": "icone do explorer 64x64",
+      "ms": 77
+    },
+    {
+      "nome": "Arte do card (Pillow + fontes)",
+      "ok": true,
+      "detalhe": "card 304x200 em JPEG de 9 KB",
+      "ms": 42
+    },
+    {
+      "nome": "Soundboard (sounddevice + soundfile)",
+      "ok": true,
+      "detalhe": "18 saidas; Ding.wav 1.6 s",
+      "ms": 219
+    },
+    {
+      "nome": "Serial (pyserial)",
+      "ok": true,
+      "detalhe": "portas: COM1, COM9 (1A86), COM13 (1A86); placa: COM9, COM13",
+      "ms": 22
+    },
+    {
+      "nome": "OBS (obsws-python)",
+      "ok": true,
+      "detalhe": "obsws-python importa",
+      "ms": 12
+    }
+  ],
+  "janela": {
+    "ok": true,
+    "cards": 12,
+    "ms_primeiro_card": 284,
+    "ms_todos": 336,
+    "ms_toque_ida_volta": 2.4,
+    "navegador": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 Edg/154.0.0.0"
+  },
+  "segundos_total": 3.1
+}

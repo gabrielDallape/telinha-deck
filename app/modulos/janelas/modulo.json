@@ -1,0 +1,432 @@
+{
+  "id": "janelas",
+  "nome": "Apps, janelas e teclado",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "acoes": {
+    "focus_or_launch": {
+      "rotulo": "Abrir ou trazer um app",
+      "campos": {
+        "target": {
+          "tipo": "app",
+          "rotulo": "App"
+        },
+        "monitor": {
+          "tipo": "opcoes",
+          "rotulo": "Em qual monitor",
+          "padrao": "",
+          "opcoes": [
+            [
+              "",
+              "Onde estiver"
+            ],
+            [
+              "principal",
+              "Principal"
+            ],
+            [
+              "secundario",
+              "Secundário"
+            ]
+          ]
+        },
+        "launch": {
+          "tipo": "texto",
+          "rotulo": "Abrir por (protocolo, se o app for da Store)",
+          "padrao": ""
+        }
+      }
+    },
+    "focus": {
+      "rotulo": "Trazer um app para a frente",
+      "campos": {
+        "target": {
+          "tipo": "app",
+          "rotulo": "App"
+        },
+        "monitor": {
+          "tipo": "opcoes",
+          "rotulo": "Em qual monitor",
+          "padrao": "",
+          "opcoes": [
+            [
+              "",
+              "Onde estiver"
+            ],
+            [
+              "principal",
+              "Principal"
+            ],
+            [
+              "secundario",
+              "Secundário"
+            ]
+          ]
+        }
+      }
+    },
+    "launch": {
+      "rotulo": "Abrir um programa",
+      "campos": {
+        "target": {
+          "tipo": "app",
+          "rotulo": "Programa"
+        }
+      }
+    },
+    "url": {
+      "rotulo": "Abrir um site",
+      "campos": {
+        "target": {
+          "tipo": "texto",
+          "rotulo": "Endereço",
+          "padrao": "https://"
+        }
+      }
+    },
+    "shell": {
+      "rotulo": "Rodar um comando",
+      "campos": {
+        "target": {
+          "tipo": "texto",
+          "rotulo": "Comando"
+        }
+      }
+    },
+    "key": {
+      "rotulo": "Atalho de teclado",
+      "campos": {
+        "target": {
+          "tipo": "tecla",
+          "rotulo": "Teclas"
+        }
+      }
+    },
+    "media": {
+      "rotulo": "Tecla de mídia",
+      "campos": {
+        "key": {
+          "tipo": "opcoes",
+          "rotulo": "Tecla",
+          "padrao": "play_pause",
+          "opcoes": [
+            [
+              "play_pause",
+              "Tocar/pausar"
+            ],
+            [
+              "next",
+              "Próxima"
+            ],
+            [
+              "prev",
+              "Anterior"
+            ],
+            [
+              "stop",
+              "Parar"
+            ],
+            [
+              "volume_up",
+              "Volume +"
+            ],
+            [
+              "volume_down",
+              "Volume −"
+            ],
+            [
+              "volume_mute",
+              "Mudo"
+            ]
+          ]
+        }
+      }
+    },
+    "key_app": {
+      "rotulo": "Atalho de um app aberto",
+      "campos": {
+        "app": {
+          "tipo": "app",
+          "rotulo": "App"
+        },
+        "target": {
+          "tipo": "tecla",
+          "rotulo": "Teclas"
+        },
+        "exigir": {
+          "tipo": "bool",
+          "rotulo": "Avisar se o app estiver fechado",
+          "padrao": true
+        }
+      }
+    },
+    "digitar": {
+      "rotulo": "Digitar no terminal do Claude",
+      "campos": {
+        "texto": {
+          "tipo": "texto",
+          "rotulo": "Texto"
+        },
+        "enter": {
+          "tipo": "bool",
+          "rotulo": "Apertar Enter depois",
+          "padrao": true
+        },
+        "tecla": {
+          "tipo": "tecla",
+          "rotulo": "Ou uma tecla (em vez do texto)",
+          "padrao": ""
+        },
+        "exigir": {
+          "tipo": "json",
+          "rotulo": "Só se esta janela estiver na frente",
+          "padrao": {
+            "exe": "windowsterminal.exe",
+            "titulo_tem": [
+              "claude"
+            ]
+          }
+        },
+        "erro": {
+          "tipo": "texto",
+          "rotulo": "Aviso quando a janela não estiver na frente",
+          "padrao": "Claude nao esta na frente"
+        }
+      }
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "abrir_app",
+      "nome": "Abrir app",
+      "descricao": "Abre um app ou traz para a frente se já estiver aberto.",
+      "categoria": "Apps e atalhos",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "apps",
+          "label": "App",
+          "color": "#3E63DD"
+        },
+        "toque": [
+          {
+            "type": "focus_or_launch",
+            "target": ""
+          }
+        ]
+      },
+      "pede": "app"
+    },
+    {
+      "id": "atalho",
+      "nome": "Atalho de teclado",
+      "descricao": "Aperta uma combinação de teclas.",
+      "categoria": "Apps e atalhos",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "mais",
+          "label": "Atalho",
+          "color": "#5B6572"
+        },
+        "toque": [
+          {
+            "type": "key",
+            "target": ""
+          }
+        ]
+      },
+      "icone": "mais",
+      "pede": "tecla"
+    },
+    {
+      "id": "site",
+      "nome": "Abrir site",
+      "descricao": "Abre um endereço no navegador padrão.",
+      "categoria": "Apps e atalhos",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "search",
+          "label": "Site",
+          "color": "#12A594"
+        },
+        "toque": [
+          {
+            "type": "url",
+            "target": "https://"
+          }
+        ]
+      },
+      "icone": "search"
+    },
+    {
+      "id": "recorte",
+      "nome": "Recorte de tela",
+      "descricao": "Abre a ferramenta de recorte do Windows.",
+      "categoria": "Apps e atalhos",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "snip",
+          "label": "Recorte",
+          "color": "#8E4EC6"
+        },
+        "toque": [
+          {
+            "type": "key",
+            "target": "win+shift+s"
+          }
+        ]
+      },
+      "icone": "snip"
+    },
+    {
+      "id": "comando",
+      "nome": "Rodar comando",
+      "descricao": "Roda um comando do terminal em segundo plano.",
+      "categoria": "Apps e atalhos",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "terminal",
+          "label": "Comando",
+          "color": "#5B6572"
+        },
+        "toque": [
+          {
+            "type": "shell",
+            "target": ""
+          }
+        ]
+      },
+      "icone": "terminal"
+    },
+    {
+      "id": "travar",
+      "nome": "Travar o PC",
+      "descricao": "Bloqueia o Windows.",
+      "categoria": "Sistema",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "lock",
+          "label": "Travar",
+          "color": "#5B6572"
+        },
+        "toque": [
+          {
+            "type": "shell",
+            "target": "rundll32.exe user32.dll,LockWorkStation"
+          }
+        ]
+      },
+      "icone": "lock"
+    },
+    {
+      "id": "tocar_pausar",
+      "nome": "Tocar/pausar",
+      "descricao": "Tecla de mídia: vale para qualquer player.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "play",
+          "label": "Play",
+          "color": "#30A46C"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "play_pause"
+          }
+        ]
+      },
+      "icone": "play"
+    },
+    {
+      "id": "proxima",
+      "nome": "Próxima faixa",
+      "descricao": "Tecla de mídia.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "next",
+          "label": "Próxima",
+          "color": "#30A46C"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "next"
+          }
+        ]
+      },
+      "icone": "next"
+    },
+    {
+      "id": "anterior",
+      "nome": "Faixa anterior",
+      "descricao": "Tecla de mídia.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "prev",
+          "label": "Anterior",
+          "color": "#30A46C"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "prev"
+          }
+        ]
+      },
+      "icone": "prev"
+    },
+    {
+      "id": "vol_mais",
+      "nome": "Volume +",
+      "descricao": "Sobe o volume do Windows.",
+      "categoria": "Áudio",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "volume_up",
+          "label": "Vol +",
+          "color": "#3E63DD"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "volume_up"
+          }
+        ]
+      },
+      "icone": "volume_up"
+    },
+    {
+      "id": "vol_menos",
+      "nome": "Volume −",
+      "descricao": "Desce o volume do Windows.",
+      "categoria": "Áudio",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "volume_down",
+          "label": "Vol −",
+          "color": "#3E63DD"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "volume_down"
+          }
+        ]
+      },
+      "icone": "volume_down"
+    }
+  ]
+}

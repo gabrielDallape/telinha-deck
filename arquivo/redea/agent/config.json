@@ -1,0 +1,13 @@
+{
+  "_comment": "Painel REDEA. A placa manda pagina + id do card; o que cada toque faz esta em paginas.py. As sessoes sao lidas de ~/.claude, nada e configurado a mao.",
+  "port": "auto",
+  "baud": 921600,
+  "jpeg_quality": 90,
+  "olhar_intervalo_ms": 700,
+  "_olhar": "de quanto em quanto tempo reler as sessoes. 700 ms deixa o card acender quase junto com o terminal sem pesar no loop.",
+  "sessoes_ttl_s": 1.0,
+  "comando": "claude",
+  "_comando": "o que roda no terminal quando voce abre um projeto pelo painel",
+  "texto_continuar": "continua",
+  "_texto_continuar": "o que o card Continuar digita na sessao"
+}

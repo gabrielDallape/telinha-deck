@@ -1,0 +1,152 @@
+{
+  "id": "obs",
+  "nome": "OBS Studio",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "acoes": {
+    "obs": {
+      "rotulo": "OBS",
+      "campos": {
+        "op": {
+          "tipo": "opcoes",
+          "rotulo": "O que fazer",
+          "padrao": "live",
+          "opcoes": [
+            [
+              "live",
+              "Live: iniciar/parar"
+            ],
+            [
+              "gravar",
+              "Gravar/parar"
+            ],
+            [
+              "pausar",
+              "Pausar gravação"
+            ],
+            [
+              "replay",
+              "Salvar replay"
+            ],
+            [
+              "cena",
+              "Trocar de cena"
+            ],
+            [
+              "mute",
+              "Mutar fonte de áudio"
+            ],
+            [
+              "camera_virtual",
+              "Câmera virtual"
+            ]
+          ]
+        },
+        "cena": {
+          "tipo": "texto",
+          "rotulo": "Cena (para trocar de cena)"
+        },
+        "fonte": {
+          "tipo": "texto",
+          "rotulo": "Fonte (para mutar)"
+        }
+      }
+    }
+  },
+  "provedores": [
+    "obs.cenas"
+  ],
+  "estados": [
+    "obs_live",
+    "obs_rec",
+    "obs_pausa",
+    "obsc_"
+  ],
+  "config": {
+    "host": {
+      "tipo": "texto",
+      "padrao": "localhost",
+      "rotulo": "Endereço"
+    },
+    "porta": {
+      "tipo": "numero",
+      "padrao": 4455,
+      "rotulo": "Porta do WebSocket"
+    },
+    "senha": {
+      "tipo": "segredo",
+      "padrao": "",
+      "rotulo": "Senha do WebSocket"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "obs_live",
+      "nome": "Live",
+      "descricao": "Inicia e para a transmissão. Fica vermelho no ar.",
+      "categoria": "Live",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "broadcast",
+          "label": "Live",
+          "label_on": "Ao vivo",
+          "color": "#E5484D"
+        },
+        "toque": [
+          {
+            "type": "obs",
+            "op": "live"
+          }
+        ],
+        "aceso": "obs_live"
+      },
+      "icone": "broadcast"
+    },
+    {
+      "id": "obs_gravar",
+      "nome": "Gravar",
+      "descricao": "Grava no OBS. Fica vermelho gravando.",
+      "categoria": "Live",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "gravar",
+          "label": "Gravar",
+          "label_on": "Gravando",
+          "color": "#E5484D"
+        },
+        "toque": [
+          {
+            "type": "obs",
+            "op": "gravar"
+          }
+        ],
+        "aceso": "obs_rec"
+      },
+      "icone": "gravar"
+    },
+    {
+      "id": "obs_cena",
+      "nome": "Trocar de cena",
+      "descricao": "Coloca uma cena no ar.",
+      "categoria": "Live",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "film",
+          "label": "Cena",
+          "color": "#7C66DC"
+        },
+        "toque": [
+          {
+            "type": "obs",
+            "op": "cena",
+            "cena": ""
+          }
+        ]
+      },
+      "icone": "film"
+    }
+  ]
+}

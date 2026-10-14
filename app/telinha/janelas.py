@@ -1,0 +1,273 @@
+"""
+Foco de janelas do Windows para a TELINHA.
+
+O problema que isto resolve: `os.startfile("Discord")` num Discord JA ABERTO nao
+traz nada pra frente - o app so pisca na barra, ou nem isso. Abrir e focar sao
+operacoes diferentes, e o que a gente quer no painel e "me leva pra la",
+independente de estar aberto, minimizado ou atras de outras 6 janelas.
+"""
+
+from __future__ import annotations
+
+import ctypes
+import os
+import time
+from ctypes import wintypes
+
+import win32api
+import win32con
+import win32gui
+import win32process
+
+user32 = ctypes.windll.user32
+
+
+# ------------------------------------------------------------------ monitores
+
+def monitores() -> list:
+    """Monitores ordenados pela coordenada X. Cada item: (rect, primario)."""
+    saida = []
+    for h, _, _ in win32api.EnumDisplayMonitors():
+        info = win32api.GetMonitorInfo(h)
+        saida.append((info["Monitor"], bool(info["Flags"] & win32con.MONITORINFOF_PRIMARY)))
+    saida.sort(key=lambda m: m[0][0])
+    return saida
+
+
+def rect_monitor(qual) -> tuple | None:
+    """Aceita 'primario', 'secundario' ou um indice 1-based na ordem da esquerda."""
+    ms = monitores()
+    if not ms:
+        return None
+    if isinstance(qual, str):
+        alvo = qual.strip().lower()
+        if alvo in ("primario", "principal", "primary"):
+            return next((r for r, p in ms if p), ms[0][0])
+        if alvo in ("secundario", "segundo", "secondary"):
+            return next((r for r, p in ms if not p), ms[-1][0])
+        try:
+            qual = int(alvo)
+        except ValueError:
+            return None
+    if isinstance(qual, int) and 1 <= qual <= len(ms):
+        return ms[qual - 1][0]
+    return None
+
+
+# -------------------------------------------------------------------- janelas
+
+def _exe_da_janela(hwnd: str) -> str:
+    try:
+        _, pid = win32process.GetWindowThreadProcessId(hwnd)
+        h = win32api.OpenProcess(
+            win32con.PROCESS_QUERY_LIMITED_INFORMATION, False, pid)
+        try:
+            return os.path.basename(win32process.GetModuleFileNameEx(h, 0)).lower()
+        finally:
+            win32api.CloseHandle(h)
+    except Exception:
+        return ""
+
+
+def listar_janelas() -> list:
+    """Janelas visiveis com titulo. Cada item: (hwnd, titulo, exe)."""
+    achadas = []
+
+    def visita(hwnd, _):
+        if not win32gui.IsWindowVisible(hwnd):
+            return
+        titulo = win32gui.GetWindowText(hwnd)
+        if not titulo:
+            return
+        # janelas-ferramenta nao sao alvo de "me leva pra la"
+        estilo = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
+        if estilo & win32con.WS_EX_TOOLWINDOW:
+            return
+        achadas.append((hwnd, titulo, _exe_da_janela(hwnd)))
+
+    win32gui.EnumWindows(visita, None)
+    return achadas
+
+
+def achar_janela(padrao: str):
+    """Acha a janela de um app por nome de executavel ou trecho do titulo.
+
+    O executavel ganha do titulo de proposito: o titulo do Discord muda conforme
+    o canal aberto, mas "discord.exe" e sempre "discord.exe".
+    """
+    alvo = padrao.lower().strip()
+    if alvo.endswith(".exe"):
+        alvo = alvo[:-4]
+    js = listar_janelas()
+
+    for hwnd, _, exe in js:                          # 1) executavel exato
+        if exe == alvo + ".exe":
+            return hwnd
+    for hwnd, _, exe in js:                          # 2) executavel parcial
+        if exe and alvo in exe:
+            return hwnd
+    for hwnd, titulo, _ in js:                       # 3) titulo
+        if alvo in titulo.lower():
+            return hwnd
+    return None
+
+
+def rodando(nome: str) -> bool:
+    """O app tem alguma janela agora?
+
+    Serve de tranca para atalhos globais: mandar o atalho de mute do Discord com
+    o Discord fechado significa entregar a combinacao para qualquer programa que
+    estiver na frente.
+    """
+    return achar_janela(nome) is not None
+
+
+def _destravar_foreground() -> None:
+    """O Windows recusa SetForegroundWindow de processo sem input recente.
+
+    Um toque de ALT (pressiona e solta) marca o processo como "acabou de receber
+    input" e o pedido de foco passa. E o truque padrao para isso; sem ele a janela
+    so pisca laranja na barra de tarefas.
+    """
+    user32.keybd_event(win32con.VK_MENU, 0, 0, 0)
+    user32.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
+
+
+def focar(hwnd, monitor=None, maximizar: bool = True) -> None:
+    """Traz a janela pra frente, opcionalmente maximizada em um monitor."""
+    # 1) sai do minimizado - nada mais funciona enquanto ela esta iconificada
+    if win32gui.IsIconic(hwnd):
+        win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+        time.sleep(0.05)
+
+    # 2) muda de monitor: o Windows maximiza no monitor que CONTEM a janela,
+    #    entao primeiro a gente muda a janela de lugar, depois maximiza.
+    if monitor is not None:
+        r = rect_monitor(monitor)
+        if r:
+            x, y, x2, y2 = r
+            win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+            larg, alt = (x2 - x) // 2, (y2 - y) // 2
+            win32gui.SetWindowPos(
+                hwnd, None, x + larg // 2, y + alt // 2, larg, alt,
+                win32con.SWP_NOZORDER | win32con.SWP_NOACTIVATE)
+
+    if maximizar:
+        win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
+
+    # 3) foco de verdade
+    _destravar_foreground()
+    try:
+        win32gui.SetForegroundWindow(hwnd)
+    except Exception:
+        # ainda recusado: BringWindowToTop pelo menos levanta a janela
+        try:
+            win32gui.BringWindowToTop(hwnd)
+        except Exception:
+            pass
+
+
+def focar_ou_none(padrao: str, monitor=None, maximizar: bool = True) -> bool:
+    """Foca o app se ele ja tem janela. Devolve False se nao achou nada."""
+    hwnd = achar_janela(padrao)
+    if not hwnd:
+        return False
+    focar(hwnd, monitor, maximizar)
+    return True
+
+
+# ------------------------------------------------------------ quem esta na frente
+
+def janela_da_frente() -> tuple:
+    """(hwnd, exe em minusculas, titulo) da janela em foco. E o que decide o
+    perfil do painel: Discord na frente, o painel vira controles do Discord."""
+    hwnd = user32.GetForegroundWindow()
+    if not hwnd:
+        return None, "", ""
+    return hwnd, _exe_da_janela(hwnd), win32gui.GetWindowText(hwnd)
+
+
+def frente_bate(regra) -> bool:
+    """`regra` e o nome do exe ("discord.exe") ou um dict
+    {"exe": "windowsterminal.exe", "titulo_tem": ["claude", "*"]}: o titulo tem
+    de conter um dos trechos (sem diferenciar caixa). Serve para separar a aba
+    do Claude Code de um pwsh qualquer no mesmo Windows Terminal."""
+    _, exe, titulo = janela_da_frente()
+    return regra_bate(regra, exe, titulo)
+
+
+def regra_bate(regra, exe: str, titulo: str) -> bool:
+    """O teste de `frente_bate` sobre uma janela ja lida - quem confere varias
+    regras le a janela da frente uma vez so."""
+    if isinstance(regra, str):
+        return exe == regra.lower()
+    if exe != str(regra.get("exe", "")).lower():
+        return False
+    trechos = regra.get("titulo_tem") or []
+    comeca = regra.get("titulo_comeca") or []
+    if not trechos and not comeca:
+        return True
+    t = titulo.lower().strip()
+    # `titulo_comeca`: o Claude Code poe um simbolo de estado na frente do
+    # titulo da aba (* parado, quartos de lua trabalhando, bolinhas esperando).
+    # So o PRIMEIRO caractere conta: um "-" no meio do titulo de um pwsh
+    # comum nao pode bater.
+    if comeca and t and t[0] in "".join(comeca):
+        return True
+    return any(x.lower() in t for x in trechos)
+
+
+# ------------------------------------------------------------ digitar (SendInput)
+# keybd_event e a API velha: falha em janela elevada e depende do layout do
+# teclado. SendInput com KEYEVENTF_UNICODE manda o codepoint - 'ç' chega como
+# 'ç' em qualquer layout. Copiado do REDEA (agent/janelas.py).
+
+INPUT_KEYBOARD = 1
+KEYEVENTF_KEYUP = 0x0002
+KEYEVENTF_UNICODE = 0x0004
+
+
+class _KEYBDINPUT(ctypes.Structure):
+    _fields_ = [("wVk", wintypes.WORD), ("wScan", wintypes.WORD),
+                ("dwFlags", wintypes.DWORD), ("time", wintypes.DWORD),
+                ("dwExtraInfo", ctypes.POINTER(ctypes.c_ulong))]
+
+
+class _U(ctypes.Union):
+    _fields_ = [("ki", _KEYBDINPUT), ("padding", ctypes.c_ubyte * 32)]
+
+
+class _INPUT(ctypes.Structure):
+    _fields_ = [("type", wintypes.DWORD), ("u", _U)]
+
+
+def _manda(entradas: list) -> None:
+    if not entradas:
+        return
+    arr = (_INPUT * len(entradas))(*entradas)
+    user32.SendInput(len(entradas), arr, ctypes.sizeof(_INPUT))
+
+
+def _unicode(ch: str, solta: bool) -> _INPUT:
+    flags = KEYEVENTF_UNICODE | (KEYEVENTF_KEYUP if solta else 0)
+    return _INPUT(INPUT_KEYBOARD, _U(ki=_KEYBDINPUT(0, ord(ch), flags, 0, None)))
+
+
+def _virtual(vk: int, solta: bool) -> _INPUT:
+    return _INPUT(INPUT_KEYBOARD, _U(ki=_KEYBDINPUT(vk, 0, KEYEVENTF_KEYUP if solta else 0, 0, None)))
+
+
+def digitar(texto: str) -> None:
+    """Texto literal, por codepoint, na janela em foco."""
+    entradas = []
+    for ch in texto:
+        entradas.append(_unicode(ch, False))
+        entradas.append(_unicode(ch, True))
+    _manda(entradas)
+
+
+def atalho(vks: list) -> None:
+    """Combo por codigos virtuais, ex.: [0x11, 0x0D] = ctrl+enter."""
+    entradas = [_virtual(v, False) for v in vks]
+    entradas += [_virtual(v, True) for v in reversed(vks)]
+    _manda(entradas)

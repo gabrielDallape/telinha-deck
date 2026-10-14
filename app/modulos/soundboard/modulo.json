@@ -1,0 +1,87 @@
+{
+  "id": "soundboard",
+  "nome": "Soundboard",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "acoes": {
+    "som": {
+      "rotulo": "Tocar um som",
+      "campos": {
+        "arquivo": {
+          "tipo": "arquivo",
+          "rotulo": "Arquivo de som"
+        },
+        "volume": {
+          "tipo": "numero",
+          "rotulo": "Volume (vazio = o do soundboard)"
+        },
+        "modo": {
+          "tipo": "opcoes",
+          "rotulo": "Se já estiver tocando",
+          "padrao": "alternar",
+          "opcoes": [
+            [
+              "alternar",
+              "Parar"
+            ],
+            [
+              "reiniciar",
+              "Começar de novo"
+            ],
+            [
+              "sobrepor",
+              "Tocar outro por cima"
+            ]
+          ]
+        }
+      }
+    },
+    "som_parar": {
+      "rotulo": "Parar todos os sons"
+    }
+  },
+  "provedores": [
+    "soundboard.sons"
+  ],
+  "config": {
+    "saidas": {
+      "tipo": "lista",
+      "padrao": [
+        "padrao"
+      ],
+      "rotulo": "Saídas de áudio (para a call ouvir: 'CABLE Input')"
+    },
+    "volume": {
+      "tipo": "numero",
+      "padrao": 80,
+      "rotulo": "Volume (0-100)"
+    },
+    "pasta": {
+      "tipo": "pasta",
+      "padrao": "",
+      "rotulo": "Pasta com os seus sons"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "parar_sons",
+      "nome": "Parar sons",
+      "descricao": "Para tudo o que o soundboard está tocando.",
+      "categoria": "Live",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "stop",
+          "label": "Parar",
+          "color": "#5B6572"
+        },
+        "toque": [
+          {
+            "type": "som_parar"
+          }
+        ]
+      },
+      "icone": "stop"
+    }
+  ]
+}

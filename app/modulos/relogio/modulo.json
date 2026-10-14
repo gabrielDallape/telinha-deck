@@ -1,0 +1,38 @@
+{
+  "id": "relogio",
+  "nome": "Relógio",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "widgets": [
+    "relogio"
+  ],
+  "biblioteca": [
+    {
+      "id": "relogio",
+      "nome": "Relógio",
+      "descricao": "Hora, dia da semana e data.",
+      "categoria": "Informação",
+      "botao": {
+        "aparencia": {
+          "widget": "relogio"
+        },
+        "toque": []
+      },
+      "icone": "relogio"
+    },
+    {
+      "id": "relogio_grande",
+      "nome": "Relógio grande",
+      "descricao": "O da tela de descanso.",
+      "categoria": "Informação",
+      "botao": {
+        "aparencia": {
+          "widget": "relogio",
+          "estilo": "grande"
+        },
+        "toque": []
+      },
+      "icone": "relogio"
+    }
+  ]
+}

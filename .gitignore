@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Node e builds
+node_modules/
+dist/
+build/
+
+# Segredos e dados locais (tokens, cache de arte, estado de execução)
+agent/segredos/
+**/cache/
+agent/estado.json
+*.log
+
+# Binários que não são nossos ou que podem ter dado sensível
+backup/*.bin
+agent/logos/*.exe

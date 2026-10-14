@@ -1,0 +1,15 @@
+pyserial>=3.5
+pycaw>=20240210
+comtypes>=1.4.1
+pywin32>=306          # janelas.py (foco/monitor) e icones.py (icone do exe)
+Pillow>=10.0          # arte.py: toda a composicao dos botoes
+winsdk>=1.0           # midia.py: o que esta tocando (SMTC), com a capa
+icalendar>=6.0        # vivos.py: agenda .ics
+recurring-ical-events>=3.0
+google-auth>=2.0       # vivos.py: agenda pelo login no Google (rota 2)
+google-auth-oauthlib>=1.0
+pystray>=0.19          # bandeja.py: icone ao lado do relogio
+sounddevice>=0.4       # sons.py: soundboard, varias saidas ao mesmo tempo
+soundfile>=0.12        # sons.py: wav, mp3, ogg, flac
+numpy>=1.26            # sons.py: mixer
+obsws-python>=1.7      # obs.py: OBS pelo WebSocket

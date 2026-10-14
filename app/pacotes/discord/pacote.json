@@ -1,0 +1,142 @@
+{
+  "id": "discord",
+  "nome": "Discord",
+  "categoria": "comunicacao",
+  "detectar": {
+    "app": [
+      "Discord"
+    ],
+    "caminhos": [
+      "%LOCALAPPDATA%/Discord/Update.exe"
+    ]
+  },
+  "entrada": {
+    "widget": "icone",
+    "icon_app": "Discord",
+    "color": "#5865F2",
+    "label": "Discord"
+  },
+  "inicio": "discord",
+  "paginas": {
+    "discord": {
+      "_comment": "abre sozinha quando o Discord vem para a frente. Surdo usa o atalho padrao do Discord (Ctrl+Shift+D); se voce mudou, ajuste target.",
+      "titulo": "Discord",
+      "voltar": "home",
+      "quando_foco": [
+        "discord.exe"
+      ],
+      "grade": {
+        "cols": 3,
+        "rows": 2
+      },
+      "botoes": [
+        {
+          "id": "mic",
+          "aparencia": {
+            "icon": "mic",
+            "label": "Mic",
+            "label_on": "Mudo",
+            "sub": "Discord + Windows",
+            "color": "#5B6572",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "mic_toggle"
+            },
+            {
+              "type": "key_app",
+              "app": "discord",
+              "target": "ctrl+alt+shift+m",
+              "exigir": false
+            }
+          ],
+          "aceso": "mic_muted",
+          "_comment": "Muta nos DOIS lugares. O mute do Windows cala o audio de verdade e e o que a tela le como estado; o atalho faz o Discord mostrar voce mutado para o time - sem ele, o pessoal continua te vendo com o microfone aberto. O atalho tem de estar cadastrado em Discord > Configuracoes > Atalhos de Teclado como 'Ativar/desativar mudo'."
+        },
+        {
+          "id": "surdo",
+          "aparencia": {
+            "icon": "fone_off",
+            "label": "Surdo",
+            "sub": "Ctrl+Shift+D",
+            "color": "#5B6572",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "key_app",
+              "app": "discord",
+              "target": "ctrl+shift+d",
+              "exigir": true
+            }
+          ]
+        },
+        {
+          "id": "sysmute",
+          "aparencia": {
+            "icon": "volume",
+            "label": "Som",
+            "label_on": "Mudo",
+            "color": "#5B6572",
+            "nivel_de": "sys_vol",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "sys_mute_toggle"
+            }
+          ],
+          "aceso": "sys_muted"
+        },
+        {
+          "id": "vol_down",
+          "aparencia": {
+            "icon": "volume_down",
+            "label": "Vol -",
+            "color": "#3E63DD",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "media",
+              "key": "volume_down"
+            }
+          ]
+        },
+        {
+          "id": "vol_up",
+          "aparencia": {
+            "icon": "volume_up",
+            "label": "Vol +",
+            "color": "#3E63DD",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "media",
+              "key": "volume_up"
+            }
+          ]
+        },
+        {
+          "id": "monitor2",
+          "aparencia": {
+            "icon": "monitor",
+            "label": "Monitor 2",
+            "sub": "manda o Discord pra la",
+            "color": "#5865F2",
+            "widget": "icone"
+          },
+          "toque": [
+            {
+              "type": "focus_or_launch",
+              "target": "Discord",
+              "monitor": "secundario"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

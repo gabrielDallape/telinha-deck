@@ -1,0 +1,46 @@
+{
+  "id": "clima",
+  "nome": "Clima",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "widgets": [
+    "clima"
+  ],
+  "config": {
+    "lat": {
+      "tipo": "numero",
+      "padrao": null,
+      "rotulo": "Latitude (vazio = pela cidade do IP)"
+    },
+    "lon": {
+      "tipo": "numero",
+      "padrao": null,
+      "rotulo": "Longitude"
+    },
+    "cidade": {
+      "tipo": "texto",
+      "padrao": "",
+      "rotulo": "Nome da cidade (opcional)"
+    },
+    "atualiza_min": {
+      "tipo": "numero",
+      "padrao": 15,
+      "rotulo": "Atualizar a cada (min)"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "clima",
+      "nome": "Clima",
+      "descricao": "Temperatura, máxima e mínima, chuva. Sem conta.",
+      "categoria": "Informação",
+      "botao": {
+        "aparencia": {
+          "widget": "clima"
+        },
+        "toque": []
+      },
+      "icone": "sol"
+    }
+  ]
+}

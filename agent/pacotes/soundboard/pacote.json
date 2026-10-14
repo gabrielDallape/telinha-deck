@@ -1,0 +1,35 @@
+{
+  "_comment": "Cada arquivo de som (wav, mp3, ogg, flac) na pasta 'sons' deste pacote - ou em sons.pasta do config.json - vira um botao. Toque toca; tocar de novo para. Para a call/live ouvir, ponha um cabo virtual em sons.saidas.",
+  "id": "soundboard",
+  "nome": "Soundboard",
+  "categoria": "live",
+  "detectar": {
+    "sempre": true
+  },
+  "entrada": {
+    "icon": "megafone",
+    "color": "#E5484D",
+    "label": "Sons"
+  },
+  "inicio": "soundboard",
+  "paginas": {
+    "soundboard": {
+      "title": "Soundboard",
+      "gerar": "sons",
+      "pasta": "sons",
+      "modelo": {
+        "icon": "waveform",
+        "peso": "controle"
+      },
+      "buttons": [
+        {
+          "id": "parar",
+          "label": "Parar",
+          "icon": "stop",
+          "color": "#5B6572",
+          "type": "som_parar"
+        }
+      ]
+    }
+  }
+}

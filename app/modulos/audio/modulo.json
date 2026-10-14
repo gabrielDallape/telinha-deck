@@ -1,0 +1,98 @@
+{
+  "id": "audio",
+  "nome": "Áudio do Windows",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "acoes": {
+    "mic_toggle": {
+      "rotulo": "Ligar/desligar o microfone"
+    },
+    "mic_mute": {
+      "rotulo": "Mutar o microfone"
+    },
+    "mic_unmute": {
+      "rotulo": "Desmutar o microfone"
+    },
+    "sys_mute_toggle": {
+      "rotulo": "Mudo do som do PC"
+    },
+    "volume": {
+      "rotulo": "Volume exato",
+      "campos": {
+        "device": {
+          "tipo": "opcoes",
+          "rotulo": "Dispositivo",
+          "padrao": "sys",
+          "opcoes": [
+            [
+              "sys",
+              "Alto-falante"
+            ],
+            [
+              "mic",
+              "Microfone"
+            ]
+          ]
+        },
+        "value": {
+          "tipo": "numero",
+          "rotulo": "Volume (0 a 100)",
+          "padrao": 50
+        }
+      }
+    }
+  },
+  "estados": [
+    "mic_muted",
+    "mic_vol",
+    "sys_muted",
+    "sys_vol"
+  ],
+  "biblioteca": [
+    {
+      "id": "mic",
+      "nome": "Microfone",
+      "descricao": "Muta e desmuta o microfone. Fica vermelho quando mudo.",
+      "categoria": "Áudio",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "mic",
+          "label": "Mic",
+          "label_on": "Mudo",
+          "color": "#5B6572"
+        },
+        "toque": [
+          {
+            "type": "mic_toggle"
+          }
+        ],
+        "aceso": "mic_muted"
+      },
+      "icone": "mic"
+    },
+    {
+      "id": "som",
+      "nome": "Som do PC",
+      "descricao": "Mudo do alto-falante, com o volume em gomos.",
+      "categoria": "Áudio",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "volume",
+          "label": "Som",
+          "label_on": "Mudo",
+          "color": "#5B6572",
+          "nivel_de": "sys_vol"
+        },
+        "toque": [
+          {
+            "type": "sys_mute_toggle"
+          }
+        ],
+        "aceso": "sys_muted"
+      },
+      "icone": "volume"
+    }
+  ]
+}

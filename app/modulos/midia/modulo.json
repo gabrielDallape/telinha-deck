@@ -1,0 +1,163 @@
+{
+  "id": "midia",
+  "nome": "Mídia e Spotify",
+  "versao": "1.0.0",
+  "sdk": 1,
+  "widgets": [
+    "musica"
+  ],
+  "acoes": {
+    "spotify": {
+      "rotulo": "Spotify (Web API)",
+      "campos": {
+        "op": {
+          "tipo": "opcoes",
+          "rotulo": "O que fazer",
+          "padrao": "curtir",
+          "opcoes": [
+            [
+              "curtir",
+              "Curtir"
+            ],
+            [
+              "aleatorio",
+              "Aleatório"
+            ],
+            [
+              "repetir",
+              "Repetir"
+            ],
+            [
+              "pular",
+              "Pular segundos"
+            ],
+            [
+              "play_pause",
+              "Tocar/pausar"
+            ]
+          ]
+        },
+        "segundos": {
+          "tipo": "numero",
+          "rotulo": "Segundos (para pular)",
+          "padrao": 15
+        }
+      }
+    },
+    "musica_ou_app": {
+      "rotulo": "Player se tocando, senão abre o app",
+      "campos": {
+        "target": {
+          "tipo": "app",
+          "rotulo": "App",
+          "padrao": "Spotify"
+        },
+        "page": {
+          "tipo": "pagina",
+          "rotulo": "Página do player",
+          "padrao": "player"
+        }
+      }
+    }
+  },
+  "estados": [
+    "sp_curtida",
+    "sp_aleatorio",
+    "sp_repetir"
+  ],
+  "config": {
+    "spotify": {
+      "tipo": "grupo",
+      "padrao": {},
+      "rotulo": "Spotify (Web API): client_id, redirect_port, intervalo_s"
+    }
+  },
+  "biblioteca": [
+    {
+      "id": "tocando",
+      "nome": "Tocando agora",
+      "descricao": "Capa e nome do que toca em qualquer app. Toque pausa.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "musica",
+          "icon": "musica",
+          "label": "",
+          "color": "#30A46C"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "play_pause"
+          }
+        ]
+      },
+      "icone": "musica"
+    },
+    {
+      "id": "player",
+      "nome": "Player grande",
+      "descricao": "Capa, progresso e artista, com a posição da faixa.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "musica",
+          "estilo": "player",
+          "icon": "musica",
+          "color": "#30A46C"
+        },
+        "toque": [
+          {
+            "type": "media",
+            "key": "play_pause"
+          }
+        ]
+      },
+      "icone": "musica"
+    },
+    {
+      "id": "curtir",
+      "nome": "Curtir no Spotify",
+      "descricao": "Coração aceso quando a faixa já está curtida.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "curtir",
+          "label": "Curtir",
+          "color": "#E5484D"
+        },
+        "toque": [
+          {
+            "type": "spotify",
+            "op": "curtir"
+          }
+        ],
+        "aceso": "sp_curtida"
+      },
+      "icone": "curtir"
+    },
+    {
+      "id": "aleatorio",
+      "nome": "Aleatório",
+      "descricao": "Spotify.",
+      "categoria": "Mídia",
+      "botao": {
+        "aparencia": {
+          "widget": "icone",
+          "icon": "aleatorio",
+          "label": "Aleatório",
+          "color": "#30A46C"
+        },
+        "toque": [
+          {
+            "type": "spotify",
+            "op": "aleatorio"
+          }
+        ],
+        "aceso": "sp_aleatorio"
+      },
+      "icone": "aleatorio"
+    }
+  ]
+}

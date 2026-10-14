@@ -1,0 +1,22 @@
+:root {
+  --fundo: #0e1116;
+  --painel: #161b22;
+  --aro: #2a313c;
+  --texto: #e6edf3;
+  --fraco: #8b949e;
+  --ok: #30a46c;
+  --erro: #e5484d;
+  color-scheme: dark;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); color: var(--texto); }
+.app { display: grid; grid-template-columns: 340px 1fr; gap: 16px; padding: 16px; height: 100vh; }
+.lado { background: var(--painel); border: 1px solid var(--aro); border-radius: 12px; padding: 16px; overflow: auto; }
+.lado h2 { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
+.item { display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; padding: 8px 0; border-top: 1px solid var(--aro); font-size: 13px; }
+.item small { grid-column: 2 / 4; color: var(--fraco); }
+.bola { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; }
+.palco { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.placa { width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 14px; border: 10px solid #1c2128; cursor: pointer; }
+.status { font-size: 13px; color: var(--fraco); }

@@ -1,0 +1,125 @@
+{
+  "_comment": "OBS Studio 28+ pelo WebSocket (Ferramentas > Configuracoes do servidor WebSocket: ligar, porta 4455; a senha vai em obs.senha no config.json). As cenas sao lidas do OBS e viram botoes sozinhas.",
+  "id": "obs",
+  "nome": "OBS Studio",
+  "categoria": "live",
+  "detectar": {
+    "app": [
+      "OBS Studio"
+    ],
+    "caminhos": [
+      "%ProgramFiles%/obs-studio/bin/64bit/obs64.exe"
+    ],
+    "processo": [
+      "obs64"
+    ]
+  },
+  "entrada": {
+    "icon": "broadcast",
+    "color": "#7C66DC",
+    "label": "OBS"
+  },
+  "inicio": "obs",
+  "paginas": {
+    "obs": {
+      "title": "OBS",
+      "quando_foco": [
+        "obs64.exe"
+      ],
+      "grid": {
+        "cols": 4,
+        "rows": 2
+      },
+      "buttons": [
+        {
+          "id": "live",
+          "label": "Live",
+          "label_on": "Ao vivo",
+          "icon": "broadcast",
+          "color": "#E5484D",
+          "type": "obs",
+          "op": "live",
+          "state_key": "obs_live",
+          "sub": "iniciar / parar"
+        },
+        {
+          "id": "gravar",
+          "label": "Gravar",
+          "label_on": "Gravando",
+          "icon": "gravar",
+          "color": "#E5484D",
+          "type": "obs",
+          "op": "gravar",
+          "state_key": "obs_rec"
+        },
+        {
+          "id": "pausar",
+          "label": "Pausar",
+          "label_on": "Pausado",
+          "icon": "pausa_circ",
+          "color": "#F5A524",
+          "type": "obs",
+          "op": "pausar",
+          "state_key": "obs_pausa",
+          "sub": "gravacao"
+        },
+        {
+          "id": "replay",
+          "label": "Replay",
+          "icon": "replay",
+          "color": "#3E63DD",
+          "type": "obs",
+          "op": "replay",
+          "sub": "salvar clipe"
+        },
+        {
+          "id": "cenas",
+          "label": "Cenas",
+          "icon": "film",
+          "color": "#7C66DC",
+          "type": "page",
+          "page": "cenas"
+        },
+        {
+          "id": "mic",
+          "label": "Mic",
+          "label_on": "Mudo",
+          "icon": "mic",
+          "color": "#5B6572",
+          "type": "mic_toggle",
+          "state_key": "mic_muted"
+        },
+        {
+          "id": "sons",
+          "label": "Sons",
+          "icon": "megafone",
+          "color": "#E5484D",
+          "type": "page",
+          "page": "soundboard"
+        },
+        {
+          "id": "home",
+          "label": "Home",
+          "icon": "back",
+          "color": "#3A3F4B",
+          "type": "page",
+          "page": "home"
+        }
+      ]
+    },
+    "cenas": {
+      "title": "Cenas",
+      "gerar": "obs_cenas",
+      "buttons": [
+        {
+          "id": "voltar",
+          "label": "Voltar",
+          "icon": "back",
+          "color": "#3A3F4B",
+          "type": "page",
+          "page": "obs"
+        }
+      ]
+    }
+  }
+}

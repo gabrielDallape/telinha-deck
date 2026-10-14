@@ -1,0 +1,362 @@
+{
+  "_comment": "Painel TELINHA. A placa manda pagina+id do botao; quem decide a acao e este arquivo. A pagina 'dev' (projetos com o Claude) e gerada na hora a partir de 'projetos' - nao fica aqui.",
+  "port": "auto",
+  "baud": 921600,
+  "state_interval_ms": 1000,
+  "jpeg_quality": 90,
+  "projetos": {
+    "_comment": "lista vazia = o painel acha sozinho o que tem cara de projeto na raiz, mais recente primeiro. Para escolher a dedo, ponha os nomes das pastas.",
+    "raiz": "",
+    "lista": [
+      "Norfolk AI",
+      "TELINHA",
+      "gps",
+      "arrematai"
+    ],
+    "comando": "claude",
+    "max": 15
+  },
+  "clima": {
+    "_comment": "lat/lon vazios = descobre pela cidade do IP. atualiza_min: intervalo da leitura",
+    "lat": null,
+    "lon": null,
+    "cidade": "",
+    "atualiza_min": 15
+  },
+  "agenda": {
+    "_comment": "Duas rotas. (1) ics_url: 'Endereco secreto no formato iCal' do Google Agenda (a /public/ so funciona se a agenda for publica). (2) Login no Google: coloque o client_secret.json de um projeto do Google Cloud em agent/segredos/ com o nome abaixo; na primeira subida o navegador abre para voce logar uma vez. Se o arquivo existir, a rota 2 ganha.",
+    "ics_url": "",
+    "atualiza_min": 5,
+    "dias": 7,
+    "google_client_secret": "segredos/google_client_secret.json",
+    "google_agendas": [
+      "primary"
+    ]
+  },
+  "spotify": {
+    "_comment": "Web API do Spotify (capa nitida, curtir, aleatorio, repetir). Crie um app em developer.spotify.com/dashboard com Redirect URI http://127.0.0.1:8765/callback e cole o Client ID aqui. Vazio = so o controle de midia do Windows.",
+    "client_id": "fe9ce2821f3648dc93b6978a6b3ada89",
+    "redirect_port": 8765,
+    "intervalo_s": 3.0
+  },
+  "descanso": {
+    "_comment": "apos_min sem teclado/mouse no PC, o painel vai sozinho para a tela de descanso e volta quando voce mexer. 0 desliga o automatico. brilho: backlight na tela de descanso (5-255; firmware redea-1.1+)",
+    "apos_min": 15,
+    "brilho": 40
+  },
+  "barra_relogio": true,
+  "pages": {
+    "home": {
+      "title": " ",
+      "grid": {
+        "cols": 4,
+        "rows": 3
+      },
+      "buttons": [
+        {
+          "id": "discord",
+          "label": "",
+          "icon_app": "Discord",
+          "color": "#5865F2",
+          "type": "focus_or_launch",
+          "target": "Discord",
+          "monitor": "secundario",
+          "_comment": "focus_or_launch: se ja tem janela, traz pra frente e maximiza no monitor; se nao tem, abre"
+        },
+        {
+          "id": "chrome",
+          "label": "",
+          "icon_app": "Google Chrome",
+          "color": "#4285F4",
+          "type": "focus_or_launch",
+          "target": "Google Chrome",
+          "monitor": "secundario"
+        },
+        {
+          "id": "spotify_app",
+          "label": "",
+          "icon": "spotify",
+          "color": "#1DB954",
+          "peso": "destino",
+          "type": "focus_or_launch",
+          "target": "Spotify",
+          "launch": "spotify:",
+          "monitor": "secundario",
+          "_comment": "app da Store: o logo vem de uma copia do Spotify.exe em agent/logos (a pasta WindowsApps nao e legivel pelo Python); reserva: o tile PNG da Store",
+          "icon_exe": "logos/Spotify_copia.exe",
+          "icon_file": "logos/spotify_tile.png"
+        },
+        {
+          "id": "dev",
+          "label": "",
+          "icon": "claude",
+          "color": "#D97757",
+          "type": "page",
+          "page": "dev",
+          "_comment": "o Clawd em pixel art, a pedido: o dono prefere o bichinho ao logo da Anthropic. Abre a pagina dev (projetos)"
+        },
+        {
+          "id": "midia",
+          "live": "musica",
+          "icon": "musica",
+          "type": "media",
+          "_comment": "o que esta tocando, de qualquer app (YouTube, videoaula, Spotify): mostra a capa; toque = play/pause. Parado, so a nota. O Spotify tem o atalho proprio ao lado.",
+          "color": "#30A46C",
+          "label": "",
+          "key": "play_pause"
+        },
+        {
+          "id": "mic",
+          "label": "",
+          "icon": "mic",
+          "color": "#5B6572",
+          "state_key": "mic_muted",
+          "_comment": "Muta nos DOIS lugares. O mute do Windows cala o audio de verdade e e o que a tela le como estado; o atalho faz o Discord mostrar voce mutado para o time - sem ele, o pessoal continua te vendo com o microfone aberto. O atalho tem de estar cadastrado em Discord > Configuracoes > Atalhos de Teclado como 'Ativar/desativar mudo'.",
+          "type": "sequence",
+          "steps": [
+            {
+              "type": "mic_toggle"
+            },
+            {
+              "type": "key_app",
+              "app": "discord",
+              "target": "ctrl+alt+shift+m",
+              "exigir": false
+            }
+          ]
+        },
+        {
+          "id": "sysmute",
+          "label": "",
+          "icon": "volume",
+          "color": "#5B6572",
+          "type": "sys_mute_toggle",
+          "state_key": "sys_muted",
+          "nivel_de": "sys_vol",
+          "_comment_nivel": "nivel_de: chave do state cujo valor (0-100) vira a barra de gomos no card. O agente poe o valor em painel.niveis[chave] e remanda a pagina quando muda."
+        },
+        {
+          "id": "snip",
+          "label": "",
+          "icon": "image",
+          "color": "#8E4EC6",
+          "type": "key",
+          "target": "win+shift+s"
+        },
+        {
+          "id": "vol_down",
+          "label": "",
+          "icon": "volume_down",
+          "color": "#3E63DD",
+          "type": "media",
+          "key": "volume_down"
+        },
+        {
+          "id": "vol_up",
+          "label": "",
+          "icon": "volume_up",
+          "color": "#3E63DD",
+          "type": "media",
+          "key": "volume_up"
+        },
+        {
+          "id": "descansar",
+          "label": "",
+          "icon": "lua",
+          "color": "#6E56CF",
+          "peso": "controle",
+          "type": "page",
+          "page": "descanso",
+          "_comment": "tela de descanso. Tambem entra sozinha depois de descanso.apos_min sem mexer no PC"
+        },
+        {
+          "id": "apps",
+          "label": "",
+          "icon": "apps",
+          "color": "#7C66DC",
+          "type": "page",
+          "page": "apps",
+          "_comment": "os apps que o painel achou no PC (pacotes/), cada um com as paginas dele"
+        }
+      ],
+      "_comment_grade": "4x3 com 11 cards: a ultima vaga fica livre de proposito (o card Sistema saiu porque a leitura de CPU custava CPU)",
+      "_comment_icones": "home so com icones, sem rotulo nem sublinha, a pedido"
+    },
+    "descanso": {
+      "_comment": "tela de descanso: tres janelas para o mesmo ceu (gradiente que muda com a hora e o tempo; arte.py > _CEU). Toque em qualquer um volta para a home. title com um espaco para a barra ficar vazia (o firmware escreve TELINHA quando o titulo e vazio)",
+      "title": " ",
+      "back": "",
+      "grid": {
+        "cols": 3,
+        "rows": 1
+      },
+      "buttons": [
+        {
+          "id": "relogio_g",
+          "live": "relogio",
+          "estilo": "grande",
+          "type": "page",
+          "page": "home"
+        },
+        {
+          "id": "clima_g",
+          "live": "clima",
+          "estilo": "grande",
+          "type": "page",
+          "page": "home"
+        },
+        {
+          "id": "agenda",
+          "live": "agenda",
+          "type": "page",
+          "page": "home"
+        }
+      ]
+    },
+    "player": {
+      "_comment": "o player. Faixa (capa, titulo, progresso) + tocar/pausar, anterior, proxima; Curtir/Aleatorio/Repetir so funcionam com o Spotify ligado pela Web API (spotify.client_id) e acendem com o estado real.",
+      "title": "Tocando agora",
+      "back": "home",
+      "grid": {
+        "cols": 4,
+        "rows": 2
+      },
+      "buttons": [
+        {
+          "id": "faixa",
+          "live": "musica",
+          "estilo": "player",
+          "type": "media",
+          "key": "play_pause",
+          "_comment": "toque na capa = play/pause"
+        },
+        {
+          "id": "pp",
+          "live": "musica",
+          "estilo": "controle",
+          "icon": "play",
+          "label": "Tocar",
+          "color": "#30A46C",
+          "type": "media",
+          "key": "play_pause"
+        },
+        {
+          "id": "ant",
+          "label": "Anterior",
+          "icon": "prev",
+          "color": "#30A46C",
+          "type": "media",
+          "key": "prev"
+        },
+        {
+          "id": "prox",
+          "label": "Próxima",
+          "icon": "next",
+          "color": "#30A46C",
+          "type": "media",
+          "key": "next"
+        },
+        {
+          "id": "curtir",
+          "label": "Curtir",
+          "label_on": "Curtida",
+          "icon": "curtir",
+          "color": "#1DB954",
+          "state_key": "sp_curtida",
+          "type": "spotify",
+          "op": "curtir",
+          "sub": "Spotify"
+        },
+        {
+          "id": "aleatorio",
+          "label": "Aleatório",
+          "label_on": "Aleatório",
+          "icon": "aleatorio",
+          "color": "#3E63DD",
+          "state_key": "sp_aleatorio",
+          "type": "spotify",
+          "op": "aleatorio",
+          "sub": "Spotify"
+        },
+        {
+          "id": "repetir",
+          "label": "Repetir",
+          "label_on": "Repetindo",
+          "icon": "repetir",
+          "color": "#8E4EC6",
+          "state_key": "sp_repetir",
+          "type": "spotify",
+          "op": "repetir",
+          "sub": "fila > faixa > off"
+        },
+        {
+          "id": "sysmute",
+          "label": "Som",
+          "label_on": "Mudo",
+          "icon": "volume",
+          "color": "#5B6572",
+          "type": "sys_mute_toggle",
+          "state_key": "sys_muted",
+          "nivel_de": "sys_vol",
+          "_comment_nivel": "nivel_de: chave do state cujo valor (0-100) vira a barra de gomos no card. O agente poe o valor em painel.niveis[chave] e remanda a pagina quando muda."
+        }
+      ]
+    }
+  },
+  "_exemplos_de_outras_acoes": {
+    "abrir_um_site": {
+      "type": "url",
+      "target": "https://youtube.com"
+    },
+    "focar_no_monitor_1": {
+      "type": "focus_or_launch",
+      "target": "Code",
+      "monitor": 1
+    },
+    "atalho_de_teclado": {
+      "type": "key",
+      "target": "ctrl+shift+m"
+    },
+    "volume_exato": {
+      "type": "volume",
+      "device": "sys",
+      "value": 30
+    },
+    "macro_em_sequencia": {
+      "type": "sequence",
+      "steps": [
+        {
+          "type": "focus_or_launch",
+          "target": "Discord",
+          "delay": 1.0
+        },
+        {
+          "type": "mic_mute"
+        }
+      ]
+    },
+    "desligar_um_botao_sem_apagar": {
+      "_off": true
+    }
+  },
+  "brilho": 200,
+  "pacotes": {
+    "_comment": "Pacotes em agent/pacotes/<app>/. Ativo = app encontrado no PC. desligados: esconde mesmo instalado. forcar: liga mesmo sem achar (app portatil).",
+    "desligados": [],
+    "forcar": []
+  },
+  "sons": {
+    "_comment": "Soundboard. saidas: onde o som toca, por pedaco do nome (python -m sounddevice lista). Para a call/live ouvir, instale o VB-Audio Cable e acrescente 'CABLE Input'. pasta: uma pasta sua de sons, alem da do pacote.",
+    "saidas": [
+      "padrao"
+    ],
+    "volume": 80,
+    "pasta": ""
+  },
+  "obs": {
+    "_comment": "obs-websocket (OBS 28+): Ferramentas > Configuracoes do servidor WebSocket.",
+    "host": "localhost",
+    "porta": 4455,
+    "senha": ""
+  }
+}
